@@ -1,8 +1,8 @@
 ﻿
-using ChatServer.Application.Common.Interfaces;
+using Application.Common.Interfaces;
 using ChatSrever.Domain.Entities;
 
-namespace Chatserver.Application.TodoItems.Queries.GetTodoItemsWithPagination;
+namespace Chatserver.Application.UserC.Queries.GetTodoItemsWithPagination;
 
 public class GetAllUsersQuery : IRequest<IEnumerable<User>>
 {

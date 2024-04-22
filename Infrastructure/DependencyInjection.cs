@@ -1,33 +1,54 @@
 ﻿
+using Application.Common.Interfaces;
 using Ardalis.GuardClauses;
-using ChatServer.Application.Common.Interfaces;
+using Chatserver.Infrastructure.Services;
 using ChatServer.Infrastructure.Data;
+using ChatServer.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 
 namespace ChatServer.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    public static void AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        services.AddDbContext<ApplicationDbContext>(options =>
+               options.UseSqlServer(
+                   configuration.GetConnectionString("DefaultConnection"),
+                   b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
-        Guard.Against.Null(connectionString, message: "Connection string 'DefaultConnection' not found.");
+        services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+        services.AddTransient<ITokenService, TokenService>();
+        services.AddTransient<IDateTime, DateTimeService>();
 
 
-        services.AddDbContext<ApplicationDbContext>((sp, options) =>
+        services.AddAuthentication(options =>
         {
-            options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
-            options.UseSqlServer(connectionString);
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
+        {
+            options.SaveToken = true; // lưu chữ token khi được xác thực
+            options.SaveToken = true;
+            options.RequireHttpsMetadata = false;
+            options.TokenValidationParameters = new TokenValidationParameters()
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidAudience = configuration["JWT:ValidAudience"],
+                ValidIssuer = configuration["JWT:ValidIssuer"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
+            };
+
         });
-
-        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
-
-
-        return services;
     }
 }

@@ -2,13 +2,11 @@
 using ChatSrever.Domain.Entities;
 
 
-namespace Chatserver.Application.TodoItems.Queries.GetTodoItemsWithPagination;
+namespace Chatserver.Application.UserC.Queries;
 
 public class UserDto
 {
-    public int Id { get; init; }
-
-    public string Name { get; set; }
+  
 
     public string account { get; set; }
 

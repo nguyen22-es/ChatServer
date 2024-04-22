@@ -20,8 +20,15 @@ namespace Infrastructure.Data.Configurations
             builder.Property(m => m.Content)
                 .IsRequired(); // Yêu cầu giá trị không được null
 
-      
-             
+
+            builder.HasOne(m => m.User)
+              .WithMany()
+              .HasForeignKey(m => m.UserId)
+              .OnDelete(DeleteBehavior.Restrict); // Không cho phép xóa người dùng khi có tin nhắn liên kết với họ
+
+            // Cấu hình khóa ngoại RoomMessageId
+          
+
         }
     }
 }

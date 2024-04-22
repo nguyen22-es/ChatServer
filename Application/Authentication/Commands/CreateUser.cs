@@ -1,8 +1,8 @@
-﻿using ChatServer.Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using ChatServer.Domain.Events;
 using ChatSrever.Domain.Entities;
 
-namespace Application.TodoItems.Commands;
+namespace Application.Authentication.Commands;
 
 public record CreateUserCommand : IRequest<int>
 {

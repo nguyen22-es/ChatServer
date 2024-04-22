@@ -1,4 +1,4 @@
-﻿using ChatServer.Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using System.Security.Claims;
 
 

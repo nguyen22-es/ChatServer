@@ -1,7 +1,6 @@
-﻿
-using ChatSrever.Domain.Entities;
+﻿using ChatSrever.Domain.Entities;
 
-namespace ChatServer.Application.Common.Interfaces;
+namespace Application.Common.Interfaces;
 
 public interface IApplicationDbContext
 {
@@ -12,7 +11,7 @@ public interface IApplicationDbContext
     DbSet<RoomMessages> RoomMessages { get; }
 
     DbSet<Messages> Messages { get; }
-    
+
     DbSet<RoomUser> RoomUsers { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);

@@ -1,5 +1,5 @@
 ﻿using System;
-using ChatServer.Application.Common.Interfaces;
+using Application.Common.Interfaces;
 
 namespace ChatServer.Infrastructure.Services
 {

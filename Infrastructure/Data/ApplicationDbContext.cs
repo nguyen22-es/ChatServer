@@ -1,4 +1,4 @@
-﻿using ChatServer.Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using ChatSrever.Domain.Common;
 using ChatSrever.Domain.Entities;
 using Microsoft.EntityFrameworkCore;

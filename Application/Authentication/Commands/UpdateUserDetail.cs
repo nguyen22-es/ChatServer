@@ -1,8 +1,8 @@
 ﻿
 
-using ChatServer.Application.Common.Interfaces;
+using Application.Common.Interfaces;
 
-namespace Application.TodoItems.Commands;
+namespace Application.Authentication.Commands;
 
 public record UpdateTodoItemDetailCommand : IRequest
 {

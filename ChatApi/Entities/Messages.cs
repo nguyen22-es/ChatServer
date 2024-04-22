@@ -8,10 +8,11 @@ namespace ChatSrever.Domain.Entities
 
         public int UserId {  get; set; }
 
+        public int RoomMessageId { get; set; }
+
         public User User {  get; set; }
 
         public RoomMessages RoomMessage { get; set; }
 
-        public RoomUser RoomUser { get; set; }
     }
 }
