@@ -1,6 +1,4 @@
-﻿
-
-namespace ChatSrever.Domain.Events;
+﻿namespace Domain.Events.RoomEvent;
 
 public class RoomCompletedEvent : BaseEvent
 {

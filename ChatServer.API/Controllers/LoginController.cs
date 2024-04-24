@@ -10,12 +10,7 @@ namespace ChatServer.Api.Controllers
 {
     public class LoginController : BaseApiController
     {
-        [HttpPost]
-        public async Task<ActionResult<LoginResponse>> Create(GetTokenQuery query)
-        {
-            return Ok(await Mediator.Send(query));
-        }
-
+    
          [HttpPost("register")]
         public async Task<IActionResult> Register(CreateUserCommand request)
         {

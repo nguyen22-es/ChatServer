@@ -1,10 +1,9 @@
 ﻿using Application.Common.Interfaces;
-using Application.Dot;
 using AutoMapper;
 using Chatserver.Application.Common.Models;
 
-
-namespace Chatserver.Application.Queries;
+/*
+namespace Chatserver.Application.UserC.Queries.GetTodoItemsWithPagination;
 
 public class GetUserByIdQuery : IRequestWrapper<UserDot>
 {
@@ -41,9 +40,22 @@ public class GetUserByIdQuery : IRequestWrapper<UserDot>
     }
 
 
+    /*   public GetUserByIdQueryHandler(IApplicationDbContext context, IMapper mapper)
+       {
+           _mapper = mapper;
+           _context = context;
+       }
+       public async Task<UserDto> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
+       {
+           var user = await _context.Users.Where(a => a.Id == query.Id).FirstOrDefaultAsync();
+           if (user == null) return null;
+
+           var userDOT = _mapper.Map<UserDto>(user);
+           return userDOT;
+       }
 
 
 
 }
-
+*/
 

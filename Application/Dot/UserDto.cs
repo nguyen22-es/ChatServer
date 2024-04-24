@@ -2,11 +2,11 @@
 using ChatSrever.Domain.Entities;
 
 
-namespace Chatserver.Application.UserC.Queries;
+namespace Application.Dot;
 
-public class UserDto
+public class UserDot
 {
-  
+
 
     public string account { get; set; }
 
@@ -16,7 +16,7 @@ public class UserDto
     {
         public Mapping()
         {
-            CreateMap<User, UserDto>();
+            CreateMap<User, UserDot>();
         }
     }
 }

@@ -1,20 +1,20 @@
 ﻿using Application.Common.Interfaces;
-using Application.Authentication.Queries.CheckUser;
 using AutoMapper;
 using Chatserver.Application.Common.Models;
-using Chatserver.Application.UserC.Queries;
+using Chatserver.Application.Queries;
 using ChatSrever.Domain.Entities;
 using ChatServer.Application.ApplicationUser.Queries.GetToken;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Dot;
 
 
 namespace Chatserver.Application.ApplicationUser.Queries.GetToken
 {
     public class GetTokenQuery :IRequestWrapper<LoginResponse>
     {
-        public string Account { get; set; }
+        public string UserName { get; set; }
 
         public string Password { get; set; }
     }
@@ -33,15 +33,15 @@ namespace Chatserver.Application.ApplicationUser.Queries.GetToken
 
         public async Task<ServiceResult<LoginResponse>> Handle(GetTokenQuery request, CancellationToken cancellationToken)
         {
-            var isValid = await _context.Users.Where(a => a.account == request.Account && a.Password == request.Password).FirstOrDefaultAsync();
+            var isValid = await _context.Users.Where(a => a.account == request.UserName && a.Password == request.Password).FirstOrDefaultAsync();
 
             if (isValid == null)
-                return ServiceResult.Failed<LoginResponse>(ServiceError.ForbiddenError);
+                return ServiceResult.Failed<LoginResponse>(ServiceError.UserNotFound);
 
 
             return ServiceResult.Success(new LoginResponse
             {
-                User = _mapper.Map<UserDto>(isValid),
+                User = _mapper.Map<UserDot>(isValid),
                 Token = _tokenService.CreateJwtSecurityToken(isValid.Id)
             });
         }

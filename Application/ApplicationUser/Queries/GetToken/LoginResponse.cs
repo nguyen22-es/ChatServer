@@ -1,10 +1,11 @@
-﻿using Chatserver.Application.UserC.Queries;
+﻿using Application.Dot;
+using Chatserver.Application.Queries;
 
 namespace ChatServer.Application.ApplicationUser.Queries.GetToken
 {
     public class LoginResponse
     {
-        public UserDto User { get; set; }
+        public UserDot User { get; set; }
 
         public string Token { get; set; }
     }

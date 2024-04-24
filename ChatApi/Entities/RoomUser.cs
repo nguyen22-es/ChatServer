@@ -2,7 +2,7 @@
 
 namespace ChatSrever.Domain.Entities
 {
-    public class RoomUser
+    public class RoomUser : BaseEntity
     {
         public int UserId { get; set; }
         public int RoomId { get; set; }

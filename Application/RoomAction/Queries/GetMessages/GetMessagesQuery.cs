@@ -1,15 +1,16 @@
 ﻿
 using Application.Common.Interfaces;
 using ChatSrever.Domain.Entities;
+/*
+namespace Chatserver.Application.UserC.Queries.GetTodoItemsWithPagination;
 
-namespace Chatserver.Application.Queries;
-
-public class GetAllUsersQuery : IRequest<IEnumerable<User>>
+public class GetAllMessagesQuery : IRequest<IEnumerable<User>>
 {
 
-    public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, IEnumerable<User>>
+    public class GetAllMessagesQueryHandler : IRequestHandler<GetAllMessagesQuery, IEnumerable<User>>
     {
         private readonly IApplicationDbContext _context;
+
         public GetAllUsersQueryHandler(IApplicationDbContext context)
         {
             _context = context;
@@ -25,3 +26,4 @@ public class GetAllUsersQuery : IRequest<IEnumerable<User>>
         }
     }
 }
+*/

@@ -1,5 +1,6 @@
 ﻿
 using System.Reflection;
+using ChatServer.Application.EventHandlers;
 using Mapster;
 using MapsterMapper;
 
@@ -15,7 +16,7 @@ public static class DependencyInjection
         services.AddMediatR(cfg => {
             cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
         });
-
+        services.AddTransient<MessagesRoomCreatedEventHandler>();
         return services;
     }
 
