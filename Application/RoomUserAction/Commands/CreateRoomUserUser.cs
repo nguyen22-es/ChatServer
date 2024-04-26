@@ -37,8 +37,7 @@ public class CreateRoomUserCommandHandler : IRequestHandlerWrapper<CreateRoomUse
             UserId = request.UserId,
         };
 
-        roomUser.AddDomainEvent(new CreatedEvent<RoomUser>(roomUser));
-
+     
         await _context.RoomUsers.AddAsync(roomUser);
 
         await _context.SaveChangesAsync(cancellationToken);

@@ -5,6 +5,6 @@ namespace ChatServer.Infrastructure.Services
 {
     public class DateTimeService : IDateTime
     {
-        public DateTime Now => DateTime.Now;
+        public DateTimeOffset Now => DateTimeOffset.Now;
     }
 }

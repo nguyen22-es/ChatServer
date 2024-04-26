@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240421105612_v1")]
-    partial class v1
+    [Migration("20240424213207_v3")]
+    partial class v3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,9 +49,6 @@ namespace Infrastructure.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoomMessageId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -72,7 +69,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("RoomId", "MessagesId");
 
-                    b.HasIndex("RoomId")
+                    b.HasIndex("MessagesId")
                         .IsUnique();
 
                     b.ToTable("RoomMessages", (string)null);
@@ -180,13 +177,13 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("ChatSrever.Domain.Entities.RoomMessages", b =>
                 {
                     b.HasOne("ChatSrever.Domain.Entities.Messages", "Messages")
-                        .WithOne("RoomMessage")
-                        .HasForeignKey("ChatSrever.Domain.Entities.RoomMessages", "RoomId")
+                        .WithOne()
+                        .HasForeignKey("ChatSrever.Domain.Entities.RoomMessages", "MessagesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ChatSrever.Domain.Entities.Rooms", "Rooms")
-                        .WithMany("RoomMessages")
+                        .WithMany()
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -215,16 +212,8 @@ namespace Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ChatSrever.Domain.Entities.Messages", b =>
-                {
-                    b.Navigation("RoomMessage")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ChatSrever.Domain.Entities.Rooms", b =>
                 {
-                    b.Navigation("RoomMessages");
-
                     b.Navigation("RoomUser");
                 });
 

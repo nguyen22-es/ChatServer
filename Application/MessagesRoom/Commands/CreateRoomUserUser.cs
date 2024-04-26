@@ -6,18 +6,19 @@ using Chatserver.Application.Common.Models;
 using ChatServer.Domain.Events;
 using ChatSrever.Domain.Entities;
 using Domain.Events;
+using Domain.Events.MessagesRoom;
 using Domain.Events.RoomEvent;
 
 namespace Application.Authentication.Commands;
 
-public class CreateMessagesRoomCommand : IRequestWrapper<RoomMessages>
+public class CreateMessagesRoomCommand : INotification
 {
     public int RoomId { get; set; }
 
     public int MessagesId { get; set; }
 }
 
-public class CreateMessagesRoomCommandHandler : IRequestHandlerWrapper<CreateMessagesRoomCommand, RoomMessages>
+public class CreateMessagesRoomCommandHandler : INotificationHandler<MessagesRoomCreatedEvent>
 {
     private readonly IApplicationDbContext _context;
 
@@ -29,21 +30,21 @@ public class CreateMessagesRoomCommandHandler : IRequestHandlerWrapper<CreateMes
         _context = context;
     }
 
-    public async Task<ServiceResult<RoomMessages>> Handle(CreateMessagesRoomCommand request, CancellationToken cancellationToken)
+    public async Task Handle(MessagesRoomCreatedEvent request, CancellationToken cancellationToken)
     {
         var roomMessages = new RoomMessages()
         {
-            MessagesId = request.MessagesId,
-            RoomId = request.RoomId,
+            MessagesId = request.Room.MessagesId,
+            RoomId = request.Room.RoomId,
         };
 
-        roomMessages.AddDomainEvent(new CreatedEvent<RoomMessages>(roomMessages));
+       
 
-         _context.RoomMessages.Add(roomMessages);
+        await _context.RoomMessages.AddAsync(roomMessages);
 
         await _context.SaveChangesAsync(cancellationToken);
 
 
-        return ServiceResult.Success(roomMessages);
+       
     } 
 }

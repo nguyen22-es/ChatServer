@@ -1,11 +1,11 @@
 ﻿namespace Domain.Events.MessagesRoom;
 
-public class MessagesRoomCompletedEvent<T> : BaseEvent
+public class MessagesRoomCompletedEvent : BaseEvent
 {
-    public MessagesRoomCompletedEvent(T room)
+    public MessagesRoomCompletedEvent(RoomMessages room)
     {
         Room = room;
     }
 
-    public T Room { get; }
+    public RoomMessages Room { get; }
 }

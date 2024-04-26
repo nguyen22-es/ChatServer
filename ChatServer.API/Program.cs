@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using ChatServer.Infrastructure;
 using Application.Common.Interfaces;
 using Microsoft.OpenApi.Models;
+using Microsoft.Exchange.WebServices.Data;
 
 
 
@@ -21,7 +22,10 @@ var configuration = builder.Configuration;
 
 
 builder.Services.AddInfrastructureServices(configuration);
-
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

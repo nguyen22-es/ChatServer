@@ -28,7 +28,7 @@ namespace DataAccess
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             buider.UseSqlServer(connectionString);
    
-            return new ApplicationDbContext(buider.Options, null,null);
+            return new ApplicationDbContext(buider.Options);
         }
     }
 }

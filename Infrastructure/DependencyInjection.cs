@@ -1,8 +1,11 @@
 ﻿
 using Application.Common.Interfaces;
 using Ardalis.GuardClauses;
+using Chatserver.Infrastructure.Data.Interceptors;
 using Chatserver.Infrastructure.Services;
+using ChatServer.Application.Common.Interfaces;
 using ChatServer.Infrastructure.Data;
+using ChatServer.Infrastructure.Data.Interceptors;
 using ChatServer.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +30,9 @@ public static class DependencyInjection
         services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
         services.AddTransient<ITokenService, TokenService>();
         services.AddTransient<IDateTime, DateTimeService>();
-
+        services.AddScoped<IDomainEventService, DomainEventService>();
+        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
         services.AddAuthentication(options =>
         {

@@ -4,12 +4,14 @@ using Chatserver.Application.Common.Models;
 using ChatServer.Domain.Events;
 using ChatSrever.Domain.Entities;
 using MediatR.Wrappers;
+using System;
+using System.Data.SqlTypes;
 
 namespace Application.Authentication.Commands;
 
-public record DeleteMessagesCommand(int Id) : IRequestWrapper<Messages>;
+public record DeleteMessagesCommand(int Id) : IRequestWrapper<INullable>;
 
-public class DeleteMessagesCommandHandler : IRequestHandlerWrapper<DeleteMessagesCommand, Messages>
+public class DeleteMessagesCommandHandler : IRequestHandlerWrapper<DeleteMessagesCommand, INullable>
 {
     private readonly IApplicationDbContext _context;
 
@@ -18,22 +20,24 @@ public class DeleteMessagesCommandHandler : IRequestHandlerWrapper<DeleteMessage
         _context = context;
     }
 
-    public async Task<ServiceResult<Messages>> Handle(DeleteMessagesCommand request, CancellationToken cancellationToken)
+    public async Task<ServiceResult<INullable>> Handle(DeleteMessagesCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.Messages
-              .Where(l => l.Id == request.Id)
+        var entity = await _context.RoomMessages
+              .Where(l => l.MessagesId == request.Id)
               .SingleOrDefaultAsync(cancellationToken);
 
         if (entity == null)
         {
-            throw new NotFoundException(nameof(Messages), request.Id.ToString());
+            return ServiceResult.Failed<INullable>(ServiceError.NotFound);
         }
 
-        _context.Messages.Remove(entity);
+        _context.RoomMessages.Remove(entity);
 
         await _context.SaveChangesAsync(cancellationToken);
-
-        return ServiceResult.Success(entity);
+        
+        INullable nullable = entity as INullable;
+       
+        return ServiceResult.Success(nullable);
     }
 
 }

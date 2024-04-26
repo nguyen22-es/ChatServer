@@ -1,6 +1,7 @@
 ﻿
 using Application.Common.Interfaces;
 using Chatserver.Application.Common.Models;
+using ChatServer.Application.ApplicationUser.Queries.GetToken;
 using ChatServer.Domain.Events;
 using ChatSrever.Domain.Entities;
 using MediatR.Wrappers;
@@ -26,7 +27,7 @@ public class DeleteRoomCommandHandler : IRequestHandlerWrapper<DeleteRoomCommand
 
         if (entity == null)
         {
-            throw new NotFoundException(nameof(Rooms), request.Id.ToString());
+            return ServiceResult.Failed<Rooms>(ServiceError.NotFound);
         }
 
         _context.Rooms.Remove(entity);

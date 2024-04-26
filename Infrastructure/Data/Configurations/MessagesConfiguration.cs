@@ -26,9 +26,7 @@ namespace Infrastructure.Data.Configurations
               .HasForeignKey(m => m.UserId)
               .OnDelete(DeleteBehavior.Restrict); // Không cho phép xóa người dùng khi có tin nhắn liên kết với họ
 
-            // Cấu hình khóa ngoại RoomMessageId
-          
-
+       
         }
     }
 }

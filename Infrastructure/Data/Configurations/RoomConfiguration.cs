@@ -21,14 +21,9 @@ public class RoomsConfiguration : IEntityTypeConfiguration<Rooms>
         builder.Property(r => r.QuantityUser)
             .IsRequired(); // Yêu cầu giá trị không được null
 
-        // Cấu hình mối quan hệ với RoomMessages
         builder.HasMany(r => r.RoomMessages)
-            .WithOne(rm => rm.Rooms)
-            .HasForeignKey(rm => rm.RoomId);
-
-        // Cấu hình mối quan hệ với RoomUser
-        builder.HasMany(r => r.RoomUser)
-            .WithOne(ru => ru.Rooms)
-            .HasForeignKey(ru => ru.RoomId);
+                  .WithOne(rm => rm.Rooms)
+                  .HasForeignKey(rm => rm.RoomId)
+                  .OnDelete(DeleteBehavior.Cascade);
     }
 }

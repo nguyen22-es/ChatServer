@@ -4,6 +4,7 @@ using ChatServer.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240424211547_v1")]
+    partial class v1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,6 +49,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("RoomMessageId")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -64,15 +70,10 @@ namespace Infrastructure.Migrations
                     b.Property<int>("MessagesId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RoomsId")
-                        .HasColumnType("int");
-
                     b.HasKey("RoomId", "MessagesId");
 
-                    b.HasIndex("MessagesId")
+                    b.HasIndex("RoomId")
                         .IsUnique();
-
-                    b.HasIndex("RoomsId");
 
                     b.ToTable("RoomMessages", (string)null);
                 });
@@ -85,12 +86,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoomsId")
-                        .HasColumnType("int");
-
                     b.HasKey("UserId", "RoomId");
 
-                    b.HasIndex("RoomsId");
+                    b.HasIndex("RoomId");
 
                     b.ToTable("RoomUsers", (string)null);
                 });
@@ -122,9 +120,6 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<bool>("type")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -186,7 +181,7 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("ChatSrever.Domain.Entities.Messages", "Messages")
                         .WithOne()
-                        .HasForeignKey("ChatSrever.Domain.Entities.RoomMessages", "MessagesId")
+                        .HasForeignKey("ChatSrever.Domain.Entities.RoomMessages", "RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -195,10 +190,6 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("ChatSrever.Domain.Entities.Rooms", null)
-                        .WithMany("RoomMessages")
-                        .HasForeignKey("RoomsId");
 
                     b.Navigation("Messages");
 
@@ -209,7 +200,7 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("ChatSrever.Domain.Entities.Rooms", "Rooms")
                         .WithMany("RoomUser")
-                        .HasForeignKey("RoomsId")
+                        .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -226,8 +217,6 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("ChatSrever.Domain.Entities.Rooms", b =>
                 {
-                    b.Navigation("RoomMessages");
-
                     b.Navigation("RoomUser");
                 });
 

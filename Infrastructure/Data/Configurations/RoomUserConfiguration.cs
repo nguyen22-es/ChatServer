@@ -26,7 +26,7 @@ namespace Infrastructure.Data.Configurations
 
             // Cấu hình khóa ngoại đến Room
             builder.HasOne(ru => ru.Rooms)
-                .WithMany(r => r.RoomUser)
+                .WithMany()
                 .HasForeignKey(ru => ru.RoomId);
         }
     }

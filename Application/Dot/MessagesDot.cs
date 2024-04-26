@@ -13,6 +13,6 @@ namespace Application.Dot
 
         public string nameSend { get; set; }
 
-        public DateTime timeSend { get; set; }
+        public DateTimeOffset timeSend { get; set; }
     }
 }

@@ -1,8 +1,10 @@
 ﻿
 
+using Domain.Events.MessagesRoom;
+
 namespace ChatSrever.Domain.Entities
 {
-    public class RoomMessages : BaseEntity
+    public class RoomMessages 
     {
         public int RoomId { get; set; }
         public int MessagesId { get; set; }
@@ -10,5 +12,7 @@ namespace ChatSrever.Domain.Entities
 
         public Rooms Rooms { get; set; }
         public Messages Messages { get; set; }
+
+ 
     }
 }

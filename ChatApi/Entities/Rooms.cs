@@ -9,6 +9,8 @@ public class Rooms : BaseAuditableEntity
 
     public int QuantityUser { get; set; }
 
+    public bool type { get; set; }
+
     public IList<RoomMessages> RoomMessages { get; private set; } = new List<RoomMessages>();
-    public IList<RoomUser> RoomUser { get; private set; } = new List<RoomUser>();
+  //  public IList<RoomUser> RoomUser { get; private set; } = new List<RoomUser>();
 }

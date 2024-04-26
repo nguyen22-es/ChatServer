@@ -9,12 +9,13 @@ using ChatServer.Application.EventHandlers;
 using Domain.Events;
 using Domain.Events.MessagesRoom;
 using Microsoft.Extensions.Logging;
+using Domain.Events.RoomEvent;
 
 namespace Application.Authentication.Commands;
 
 public record CreateMessagesCommand : IRequestWrapper<Messages>
 {
-    public  int RoomMessageId {  get; set; }
+    public  int RoomId {  get; set; }
 
     public string content { get; set; }
 
@@ -39,7 +40,7 @@ public class CreateMessagesCommandHandler : IRequestHandlerWrapper<CreateMessage
         {
             Content = request.content,
             UserId = request.UserId,
-            RoomMessageId = request.RoomMessageId
+         
         };
 
         message.AddDomainEvent(new CreatedEvent<Messages>(message));
@@ -48,8 +49,8 @@ public class CreateMessagesCommandHandler : IRequestHandlerWrapper<CreateMessage
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        await _mediator.Publish(new CreatedEvent<RoomMessages>(new RoomMessages { MessagesId = message.Id,RoomId = request.RoomMessageId }));
-
+        await _mediator.Publish(new MessagesRoomCreatedEvent(new RoomMessages { MessagesId = message.Id,RoomId = request.RoomId }));
+        
 
         return ServiceResult.Success(message);
     } 

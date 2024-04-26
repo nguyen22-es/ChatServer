@@ -3,6 +3,7 @@
 using Application.Common.Interfaces;
 using AutoMapper;
 using Chatserver.Application.Common.Models;
+using ChatServer.Application.ApplicationUser.Queries.GetToken;
 using ChatServer.Domain.Events;
 using ChatSrever.Domain.Entities;
 
@@ -36,7 +37,7 @@ public class UpdateMessagesCommandHandler : IRequestHandlerWrapper<UpdateMessage
 
         if (entity == null)
         {
-            throw new NotFoundException(nameof(Messages), request.MessageId.ToString());
+            return ServiceResult.Failed<Messages>(ServiceError.NotFound);
         }
         if (!string.IsNullOrEmpty(request.MessageId.ToString()))
         entity.Content = request.content;
