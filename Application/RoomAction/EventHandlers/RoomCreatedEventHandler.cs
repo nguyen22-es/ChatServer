@@ -11,6 +11,7 @@ public class RoomCreatedEventHandler : INotificationHandler<CreatedEvent<RoomUse
     private readonly ILogger<RoomCreatedEventHandler> _logger;
     private readonly IApplicationDbContext _context;
 
+
     public RoomCreatedEventHandler(ILogger<RoomCreatedEventHandler> logger, IApplicationDbContext context)
     {
         _logger = logger;
@@ -21,8 +22,10 @@ public class RoomCreatedEventHandler : INotificationHandler<CreatedEvent<RoomUse
     {
         _logger.LogInformation($"Phòng được tạo: Người dùng '{notification.Item.UserId}' đã tham gia phòng '{notification.Item.RoomId}'");
         await _context.RoomUsers.AddAsync(new RoomUser { RoomId = notification.Item.RoomId,UserId = notification.Item.UserId});
-
         await _context.SaveChangesAsync(cancellationToken);
-        // Xử lý bổ sung hoặc xuất bản sự kiện nếu cần
+
+
+     
+
     }
 }

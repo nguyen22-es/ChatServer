@@ -6,10 +6,10 @@ using Chatserver.Application.Common.Models;
 
 namespace Chatserver.Application.Queries;
 
-public class GetUserByIdQuery : IRequestWrapper<UserDot>
-{
-    public int Id { get; set; }
-}
+public record GetUserByIdQuery(int Id) : IRequestWrapper<UserDot>;
+
+
+
 
     public class GetUserByIdQueryHandler : IRequestHandlerWrapper<GetUserByIdQuery, UserDot>
     {

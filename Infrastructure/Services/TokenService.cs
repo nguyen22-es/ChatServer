@@ -22,7 +22,7 @@ namespace Chatserver.Infrastructure.Services
         {
             var authClaims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, id.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, id.ToString()),        
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 

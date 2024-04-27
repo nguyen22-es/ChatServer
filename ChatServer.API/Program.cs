@@ -4,6 +4,7 @@ using ChatServer.Infrastructure;
 using Application.Common.Interfaces;
 using Microsoft.OpenApi.Models;
 using Microsoft.Exchange.WebServices.Data;
+using Infrastructure.ChatHub;
 
 
 
@@ -37,7 +38,7 @@ builder.Services.AddSingleton<ICurrentUserService, CurrentUser>();
 builder.Services.AddHttpContextAccessor();
 
 
-/*builder.Services.AddSwaggerGen(options =>
+builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -58,8 +59,17 @@ builder.Services.AddHttpContextAccessor();
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement { { scheme, Array.Empty<string>() } });
 });
-*/
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder => builder
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowAnyOrigin()
+            .AllowCredentials()
+    );
+});
 
 var app = builder.Build();
 
@@ -71,9 +81,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHub<ChatHub>("/SignalrHub");
+});
 app.Run();

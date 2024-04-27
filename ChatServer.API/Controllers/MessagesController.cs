@@ -2,29 +2,42 @@
 using Chatserver.Application.ApplicationUser.Queries.GetToken;
 using Chatserver.Application.Queries;
 using ChatServer.Api.Controllers;
+using Infrastructure.ChatHub;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using System;
 
 namespace ChatServer.API.Controllers
 {
+
     public class MessagesController : BaseApiController
     {
+        private readonly IHubContext<ChatHub> _hubContext;
+        public MessagesController(IHubContext<ChatHub> hubContext) {
+            _hubContext = hubContext;
+        }
         [HttpPost("Create")]
         public async Task<IActionResult> CreateMessages(CreateMessagesCommand request)
         {
 
             var authResult = await Mediator.Send(request);
-
-
+             if (authResult.Succeeded) 
+            {
+                 await _hubContext.Clients.Group(request.RoomId.ToString()).SendAsync("newMessage", request);
+               // await _hubContext.Clients.All.SendAsync("newMessage", request);
+            } 
+          
 
             return Ok(authResult);
         }
 
 
-        [HttpPost("Get")]
-        public async Task<IActionResult> GetAllMessages(GetAllMessagesQuery request)
+        [HttpGet("Get")]
+        public async Task<IActionResult> GetAllMessages(int request)
         {
-
-            var authResult = await Mediator.Send(request);
+           
+            var authResult = await Mediator.Send( new GetAllMessagesQuery(request));
 
 
 

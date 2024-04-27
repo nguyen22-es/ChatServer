@@ -8,12 +8,8 @@ using FluentValidation.Validators;
 
 namespace Chatserver.Application.Queries;
 
-public class GetAllMessagesQuery : IRequestWrapper<IList<MessagesDot>>
-{
-    public int RoomId { get; set; }
+public record GetAllMessagesQuery(int RoomId) : IRequestWrapper<IList<MessagesDot>>;
 
-    public string content { get; set; }
-}
 
 public class GetAllMessagesQueryHandler : IRequestHandlerWrapper<GetAllMessagesQuery, IList<MessagesDot>>
 {

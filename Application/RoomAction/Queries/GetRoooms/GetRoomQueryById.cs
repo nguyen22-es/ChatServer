@@ -10,10 +10,7 @@ using System.Linq;
 
 namespace Chatserver.Application.UserC.Queries.GetTodoItemsWithPagination;
 
-public class GetRoomsByIdQuery : IRequestWrapper<List<Rooms>>
-{
-    public int UserId { get; set; }
-}
+public record GetRoomsByIdQuery(int UserId) : IRequestWrapper<List<Rooms>>;
 
     public class GetRoomByIdQueryHandler : IRequestHandlerWrapper<GetRoomsByIdQuery, List<Rooms>>
     {
