@@ -23,11 +23,11 @@ namespace Infrastructure.Data.Configurations
             builder.HasOne(ru => ru.User)
                 .WithMany(u => u.RoomUser)
                 .HasForeignKey(ru => ru.UserId);
-
             // Cấu hình khóa ngoại đến Room
-            builder.HasOne(ru => ru.Rooms)
-                .WithMany()
-                .HasForeignKey(ru => ru.RoomId);
+            builder.HasOne(rm => rm.Rooms)
+                .WithMany(r => r.RoomUser)
+                .HasForeignKey(rm => rm.RoomId);
+
         }
     }
 }

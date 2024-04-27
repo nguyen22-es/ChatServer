@@ -71,6 +71,9 @@ namespace Chatserver.Application.Common.Models
 
         public static ServiceError SearchAtLeastOneCharacter => new ServiceError("Search parameter must have at least one character!", 898);
 
+        public static ServiceError ServiceProviderExist => new ServiceError("Service Provider with this name does exist.", 710);
+
+
         /// <summary>
         /// Default error for when we receive an exception
         /// </summary>

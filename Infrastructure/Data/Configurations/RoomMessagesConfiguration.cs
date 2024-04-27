@@ -21,14 +21,15 @@ namespace Infrastructure.Data.Configurations
 
             // Cấu hình khóa ngoại đến Room
             builder.HasOne(rm => rm.Rooms)
-                .WithMany()
+                .WithMany(r => r.RoomMessages)
                 .HasForeignKey(rm => rm.RoomId);
 
             // Cấu hình khóa ngoại đến Messages
             builder.HasOne(rm => rm.Messages)
                 .WithOne()
                 .HasForeignKey<RoomMessages>(rm => rm.MessagesId)
-                 .OnDelete(DeleteBehavior.Cascade); 
+                 .OnDelete(DeleteBehavior.Cascade);
+
 
 
         }

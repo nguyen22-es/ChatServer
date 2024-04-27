@@ -13,6 +13,8 @@ public class User : BaseAuditableEntity
 
     public string? Password { get; set; }
 
+    public string? AvatarImageUrl { get; set; }
+
     public IList<RoomUser> RoomUser { get; private set; } = new List<RoomUser>();
 
 }

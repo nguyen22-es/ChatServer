@@ -22,8 +22,13 @@ public class RoomsConfiguration : IEntityTypeConfiguration<Rooms>
             .IsRequired(); // Yêu cầu giá trị không được null
 
         builder.HasMany(r => r.RoomMessages)
-                  .WithOne(rm => rm.Rooms)
+                  .WithOne(r => r.Rooms)
                   .HasForeignKey(rm => rm.RoomId)
                   .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(r => r.RoomUser)
+               .WithOne(r => r.Rooms)
+               .HasForeignKey(rm => rm.RoomId)
+               .OnDelete(DeleteBehavior.Cascade);
     }
 }

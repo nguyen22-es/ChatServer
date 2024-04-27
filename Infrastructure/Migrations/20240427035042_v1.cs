@@ -19,6 +19,7 @@ namespace Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     QuantityUser = table.Column<int>(type: "int", nullable: false),
+                    IsGroup = table.Column<bool>(type: "bit", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -38,6 +39,7 @@ namespace Infrastructure.Migrations
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     account = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    AvatarImageUrl = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Created = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -56,7 +58,6 @@ namespace Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    RoomMessageId = table.Column<int>(type: "int", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -108,8 +109,8 @@ namespace Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_RoomMessages", x => new { x.RoomId, x.MessagesId });
                     table.ForeignKey(
-                        name: "FK_RoomMessages_Messages_RoomId",
-                        column: x => x.RoomId,
+                        name: "FK_RoomMessages_Messages_MessagesId",
+                        column: x => x.MessagesId,
                         principalTable: "Messages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -127,9 +128,9 @@ namespace Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RoomMessages_RoomId",
+                name: "IX_RoomMessages_MessagesId",
                 table: "RoomMessages",
-                column: "RoomId",
+                column: "MessagesId",
                 unique: true);
 
             migrationBuilder.CreateIndex(

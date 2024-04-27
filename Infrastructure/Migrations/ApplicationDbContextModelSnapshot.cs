@@ -64,15 +64,10 @@ namespace Infrastructure.Migrations
                     b.Property<int>("MessagesId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RoomsId")
-                        .HasColumnType("int");
-
                     b.HasKey("RoomId", "MessagesId");
 
                     b.HasIndex("MessagesId")
                         .IsUnique();
-
-                    b.HasIndex("RoomsId");
 
                     b.ToTable("RoomMessages", (string)null);
                 });
@@ -85,12 +80,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoomsId")
-                        .HasColumnType("int");
-
                     b.HasKey("UserId", "RoomId");
 
-                    b.HasIndex("RoomsId");
+                    b.HasIndex("RoomId");
 
                     b.ToTable("RoomUsers", (string)null);
                 });
@@ -109,6 +101,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsGroup")
+                        .HasColumnType("bit");
+
                     b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetimeoffset");
 
@@ -123,9 +118,6 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<bool>("type")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
 
                     b.ToTable("Rooms", (string)null);
@@ -138,6 +130,10 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AvatarImageUrl")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetimeoffset");
@@ -191,14 +187,10 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("ChatSrever.Domain.Entities.Rooms", "Rooms")
-                        .WithMany()
+                        .WithMany("RoomMessages")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("ChatSrever.Domain.Entities.Rooms", null)
-                        .WithMany("RoomMessages")
-                        .HasForeignKey("RoomsId");
 
                     b.Navigation("Messages");
 
@@ -209,7 +201,7 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("ChatSrever.Domain.Entities.Rooms", "Rooms")
                         .WithMany("RoomUser")
-                        .HasForeignKey("RoomsId")
+                        .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

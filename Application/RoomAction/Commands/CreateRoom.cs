@@ -42,7 +42,7 @@ public class CreateRoomCommandHandler : IRequestHandlerWrapper<CreateRoomTrueCom
         {
             Title = request.Title,
             QuantityUser = request.QuantityUser,
-            type = request.type,
+            IsGroup = request.type,
         };
         
    //     rooms.AddDomainEvent(new RoomCreatedEvent(rooms));

@@ -11,7 +11,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         // Đặt tên bảng trong cơ sở dữ liệu
         builder.ToTable("Users");
-
+        builder.HasKey(u => u.Id);
         // Cấu hình thuộc tính Name
         builder.Property(u => u.Name)
             .HasMaxLength(100) // Giới hạn độ dài tối đa là 100 ký tự
@@ -26,6 +26,15 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.Password)
             .HasMaxLength(50) // Giới hạn độ dài tối đa là 50 ký tự
             .IsRequired(); // Yêu cầu giá trị không được null
+
+        builder.Property(u => u.AvatarImageUrl)
+            .HasMaxLength(50);
+
+        builder.HasMany(u => u.RoomUser)
+                      .WithOne()
+                      .HasForeignKey(ru => ru.UserId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
 
     }
 }

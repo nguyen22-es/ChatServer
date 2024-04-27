@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240424213207_v3")]
-    partial class v3
+    [Migration("20240427035042_v1")]
+    partial class v1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,6 +104,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsGroup")
+                        .HasColumnType("bit");
+
                     b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetimeoffset");
 
@@ -130,6 +133,10 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AvatarImageUrl")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetimeoffset");
@@ -183,7 +190,7 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("ChatSrever.Domain.Entities.Rooms", "Rooms")
-                        .WithMany()
+                        .WithMany("RoomMessages")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -214,6 +221,8 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("ChatSrever.Domain.Entities.Rooms", b =>
                 {
+                    b.Navigation("RoomMessages");
+
                     b.Navigation("RoomUser");
                 });
 
