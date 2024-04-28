@@ -64,7 +64,7 @@ namespace Infrastructure.ChatHub
                 var Rooms = await _mediator.Send(new GetRoomsByIdQuery(IdentityName()));
 
 
-                if (!_Connections.Any(u => u.Id == IdentityName()))
+                if (!_Connections.Any(u => u.Id == user.Data.Id))
                 {
                     _Connections.Add(user.Data);
                     _ConnectionsMap.Add(user.Data.Id, Context.ConnectionId);
@@ -72,11 +72,12 @@ namespace Infrastructure.ChatHub
 
                 foreach (var item in Rooms.Data)
                 {
+                    Console.WriteLine("đã thêm vào phòng"+item.Id);
                   await  Groups.AddToGroupAsync(Context.ConnectionId, item.Id.ToString());
                 }
 
 
-               await Clients.Caller.SendAsync("getProfileInfo", user.Data.account);
+               await Clients.Caller.SendAsync("getProfileInfo", user.Data.Name);
             }
             catch (Exception ex)
             {

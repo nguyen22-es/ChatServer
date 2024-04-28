@@ -19,8 +19,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         // Cấu hình thuộc tính Account
         builder.Property(u => u.account)
-            .HasMaxLength(50) // Giới hạn độ dài tối đa là 50 ký tự
-            .IsRequired(); // Yêu cầu giá trị không được null
+            .IsRequired(); 
 
         // Cấu hình thuộc tính Password
         builder.Property(u => u.Password)

@@ -58,11 +58,12 @@ namespace ChatServer.API.Controllers
             var TaskHub = new ChatHub(mediator);
             await Mediator.Send(request);
 
-          /*  foreach(var item in request.UsersId)
+             foreach(var item in request.UsersId)
             {
-                TaskHub.Join(item);
+               await TaskHub.Join(request.RoomId.ToString(),item);
+                Console.WriteLine( item + "đã tham gia vào phòng"+ request.RoomId);
             }
-          */
+          
             return Ok();
         }
 
