@@ -21,7 +21,12 @@ public class RoomCreatedEventHandler : INotificationHandler<CreatedEvent<RoomUse
     public async Task Handle(CreatedEvent<RoomUser> notification, CancellationToken cancellationToken)
     {
         _logger.LogInformation($"Phòng được tạo: Người dùng '{notification.Item.UserId}' đã tham gia phòng '{notification.Item.RoomId}'");
+
+
         await _context.RoomUsers.AddAsync(new RoomUser { RoomId = notification.Item.RoomId,UserId = notification.Item.UserId});
+
+
+
         await _context.SaveChangesAsync(cancellationToken);
 
 

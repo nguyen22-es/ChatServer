@@ -1,11 +1,11 @@
 ﻿namespace Domain.Events;
 
-public class CompletedEvent : BaseEvent
+public class CompletedEvent<T> : BaseEvent
 {
-    public CompletedEvent(Messages item)
+    public CompletedEvent(T item)
     {
         Item = item;
     }
 
-    public Messages Item { get; }
+    public T Item { get; }
 }

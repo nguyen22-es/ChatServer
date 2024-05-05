@@ -40,7 +40,7 @@ public class CreateMessagesCommandHandler : IRequestHandlerWrapper<CreateMessage
         {
             Content = request.content,
             UserId = request.UserId,
-         
+
         };
 
         message.AddDomainEvent(new CreatedEvent<Messages>(message));
@@ -49,8 +49,8 @@ public class CreateMessagesCommandHandler : IRequestHandlerWrapper<CreateMessage
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        await _mediator.Publish(new MessagesRoomCreatedEvent(new RoomMessages { MessagesId = message.Id,RoomId = request.RoomId }));
-        
+        await _mediator.Publish(new MessagesRoomCreatedEvent(new RoomMessages { MessagesId = message.Id, RoomId = request.RoomId }));
+        await _mediator.Publish(new RoomCompletedEvent( new Rooms {Title = message.Content,Id= request.RoomId }));
 
         return ServiceResult.Success(message);
     } 

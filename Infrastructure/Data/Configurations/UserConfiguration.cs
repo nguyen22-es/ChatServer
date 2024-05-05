@@ -30,7 +30,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(50);
 
         builder.HasMany(u => u.RoomUser)
-                      .WithOne()
+                      .WithOne(u => u.User)
                       .HasForeignKey(ru => ru.UserId)
                       .OnDelete(DeleteBehavior.Cascade);
 

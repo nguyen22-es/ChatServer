@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace ChatServer.API.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+   // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class RoomController : BaseApiController
     {
         private readonly ICurrentUserService _user;
@@ -53,14 +53,14 @@ namespace ChatServer.API.Controllers
         }
 
         [HttpPost("AddUserRoom")]
-        public async Task<IActionResult> AddUserRoom(AddUserRoomRoomUserCommand request) // tạo room chat với bạn bè
+        public async Task<IActionResult> AddUserRoom(AddUserRoomUserCommand request) // tạo room chat với bạn bè
         {
             var TaskHub = new ChatHub(mediator);
             await Mediator.Send(request);
 
              foreach(var item in request.UsersId)
             {
-               await TaskHub.Join(request.RoomId.ToString(),item);
+               //await TaskHub.Join(request.RoomId.ToString(),item);
                 Console.WriteLine( item + "đã tham gia vào phòng"+ request.RoomId);
             }
           

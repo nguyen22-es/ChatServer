@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Chatserver.Application.TodoItems.EventHandlers;
 
-public class MessagesCompletedEventHandler : INotificationHandler<CompletedEvent>
+/*public class MessagesCompletedEventHandler : INotificationHandler<CompletedEvent>
 {
     private readonly ILogger<CompletedEvent> _logger;
 
@@ -20,4 +20,4 @@ public class MessagesCompletedEventHandler : INotificationHandler<CompletedEvent
 
         return Task.CompletedTask;
     }
-}
+}*/

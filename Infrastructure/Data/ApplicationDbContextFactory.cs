@@ -20,7 +20,7 @@ namespace DataAccess
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
                .SetBasePath(Directory.GetCurrentDirectory())
-               .AddJsonFile("C:\\Users\\son van\\source\\repos\\ChatApi\\ChatServer.API\\appsettings.json")
+               .AddJsonFile("C:\\Users\\son van\\source\\repos\\ChatserverApi\\ChatServer\\ChatServer.API\\appsettings.json")
                .Build();
 
 

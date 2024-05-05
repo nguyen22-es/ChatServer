@@ -15,7 +15,7 @@ namespace Application.Authentication.Commands;
 
 public record CreateRoomTrueCommand : IRequestWrapper<Rooms>
 {
-    public string? Title { get; set; }
+    public string? latestMessage { get; set; }
 
     public int QuantityUser { get; set; }
     public bool type { get; set; }
@@ -40,7 +40,7 @@ public class CreateRoomCommandHandler : IRequestHandlerWrapper<CreateRoomTrueCom
     {
         var rooms = new Rooms()
         {
-            Title = request.Title,
+            Title = request.latestMessage,
             QuantityUser = request.QuantityUser,
             IsGroup = request.type,
         };
