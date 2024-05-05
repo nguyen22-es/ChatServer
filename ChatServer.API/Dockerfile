@@ -24,4 +24,9 @@ RUN dotnet publish "./ChatServer.API.csproj" -c $BUILD_CONFIGURATION -o /app/pub
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+RUN mkdir -p /app/certificates
+COPY ChatServer.API/certificates/aspnetapp.pfx /app/certificates/
+
 ENTRYPOINT ["dotnet", "ChatServer.API.dll"]
+

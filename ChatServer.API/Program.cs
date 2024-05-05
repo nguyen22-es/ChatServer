@@ -70,12 +70,18 @@ builder.Services.AddCors(options =>
             .AllowCredentials()
     );
 });
+/*var dbHost = Environment.GetEnvironmentVariable("DatabaseServer") ?? "";
+var dbname = Environment.GetEnvironmentVariable("DatabaseName") ?? "";
+var dbPassword = Environment.GetEnvironmentVariable("DatabasePassword");
+var connectionStringdb = $"Server={dbHost},1433;Initial Catalog={dbname};User Id=sonztz123;Password={dbPassword};Persist Security Info=False;Encrypt=false";*/
+
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+   
     app.UseSwagger();
     app.UseSwaggerUI();
 }

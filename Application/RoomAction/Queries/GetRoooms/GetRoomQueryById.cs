@@ -3,8 +3,9 @@ using AutoMapper;
 using Chatserver.Application.Common.Models;
 using ChatSrever.Domain.Entities;
 using Dapper;
-using Microsoft.Data.SqlClient;
+
 using System.Data.Common;
+using System.Data.SqlClient;
 using System.Linq;
 
 

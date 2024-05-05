@@ -57,7 +57,7 @@ namespace ChatServer.API.Controllers
         }
 
 
-        [HttpPost("Delete")]
+        [HttpPost("Update")]
         public async Task<IActionResult> PostMessages(UpdateMessagesCommand request)
         {
 
