@@ -8,6 +8,7 @@ using ChatServer.Infrastructure.Data;
 using ChatServer.Infrastructure.Data.Interceptors;
 using ChatServer.Infrastructure.Services;
 using Infrastructure.ChatHub;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -23,8 +24,12 @@ public static class DependencyInjection
 {
     public static void AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
+        var dbHost = Environment.GetEnvironmentVariable("DatabaseServer") ?? "";
+var dbname = Environment.GetEnvironmentVariable("DatabaseName") ?? "";
+var dbPassword = Environment.GetEnvironmentVariable("DatabasePassword");
+var connectionStringdb = $"Server={dbHost},1433;Initial Catalog={dbname};User Id=sonztz123;Password={dbPassword};Persist Security Info=False;Encrypt=false";
         services.AddDbContext<ApplicationDbContext>((sp,options) =>
-               options.UseSqlServer(
+               options.UseMySQL(
                    configuration.GetConnectionString("DefaultConnection"),
                    b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
                .AddInterceptors(sp.GetServices<ISaveChangesInterceptor>())

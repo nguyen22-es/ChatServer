@@ -5,32 +5,36 @@
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class v2 : Migration
+    public partial class Migrationv2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "account",
+                name: "AvatarImageUrl",
                 table: "Users",
-                type: "nvarchar(max)",
-                nullable: false,
+                type: "varchar(200)",
+                maxLength: 200,
+                nullable: true,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(50)",
-                oldMaxLength: 50);
+                oldType: "varchar(50)",
+                oldMaxLength: 50,
+                oldNullable: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "account",
+                name: "AvatarImageUrl",
                 table: "Users",
-                type: "nvarchar(50)",
+                type: "varchar(50)",
                 maxLength: 50,
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+                oldType: "varchar(200)",
+                oldMaxLength: 200,
+                oldNullable: true);
         }
     }
 }

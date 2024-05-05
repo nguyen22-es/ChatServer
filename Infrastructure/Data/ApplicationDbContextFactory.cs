@@ -1,4 +1,5 @@
 ﻿using ChatServer.Infrastructure.Data;
+using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -26,7 +27,7 @@ namespace DataAccess
 
             var buider = new DbContextOptionsBuilder<ApplicationDbContext>();
             var connectionString = configuration.GetConnectionString("DefaultConnection");
-            buider.UseSqlServer(connectionString);
+            buider.UseMySQL(connectionString);
    
             return new ApplicationDbContext(buider.Options);
         }

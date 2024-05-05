@@ -27,7 +27,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired(); // Yêu cầu giá trị không được null
 
         builder.Property(u => u.AvatarImageUrl)
-            .HasMaxLength(50);
+            .HasMaxLength(200);
 
         builder.HasMany(u => u.RoomUser)
                       .WithOne()
