@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 
 
@@ -14,6 +15,7 @@ public class CurrentUser : ICurrentUserService
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public string? UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+    public  string? UserId =>  _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+    public Task<string?> Token =>  _httpContextAccessor.HttpContext?.GetTokenAsync("access_token");
 
 }

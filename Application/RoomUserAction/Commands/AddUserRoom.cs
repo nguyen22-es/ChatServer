@@ -1,6 +1,7 @@
 ﻿
 
 using Application.Common.Interfaces;
+using Application.Dot;
 using AutoMapper;
 using Chatserver.Application.Common.Models;
 using ChatServer.Domain.Events;
@@ -12,27 +13,29 @@ using System.Data.SqlTypes;
 
 namespace Application.Authentication.Commands;
 
-public record AddUserRoomUserCommand : IRequest
+public record AddUserRoomUserCommand : IRequest<RoomDot>
 {
     public int  RoomId{ get; set; }
 
     public List<int> UsersId { get; set; }
 }
 
-public class AddUserRoomRoomUserCommandHandler : IRequestHandler<AddUserRoomUserCommand>
+public class AddUserRoomRoomUserCommandHandler : IRequestHandler<AddUserRoomUserCommand,RoomDot>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMediator _mediator;
+    private readonly IMapper _mapper;
 
 
 
-    public AddUserRoomRoomUserCommandHandler(IApplicationDbContext context, IMediator mediator)
+    public AddUserRoomRoomUserCommandHandler(IApplicationDbContext context, IMediator mediator,IMapper mapper)
     {
         _context = context;
         _mediator = mediator;
+        _mapper = mapper;
     }
 
-    public async Task Handle(AddUserRoomUserCommand request, CancellationToken cancellationToken)
+    public async Task<RoomDot> Handle(AddUserRoomUserCommand request, CancellationToken cancellationToken)
     {
        
         foreach (var user in request.UsersId)
@@ -53,8 +56,8 @@ public class AddUserRoomRoomUserCommandHandler : IRequestHandler<AddUserRoomUser
 
 
         }
+        var room = _context.Rooms.AsNoTracking().FirstOrDefault(u => u.Id == request.RoomId);
 
-
-
+        return _mapper.Map<RoomDot>(room);
     }
 }

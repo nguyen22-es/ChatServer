@@ -2,10 +2,12 @@
 using Chatserver.Application.ApplicationUser.Queries.GetToken;
 using Chatserver.Application.Queries;
 using ChatServer.Api.Controllers;
-using Infrastructure.ChatHub;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR.Client;
+using ServerSingalr.ChatHub;
 using System;
 
 namespace ChatServer.API.Controllers
@@ -13,9 +15,11 @@ namespace ChatServer.API.Controllers
 
     public class MessagesController : BaseApiController
     {
-        private readonly IHubContext<ChatHub> _hubContext;
-        public MessagesController(IHubContext<ChatHub> hubContext) {
-            _hubContext = hubContext;
+        private readonly HubService _hubConnection;
+
+        public MessagesController(HubService hubConnection)
+        {
+            _hubConnection = hubConnection;   
         }
         [HttpPost("Create")]
         public async Task<IActionResult> CreateMessages(CreateMessagesCommand request)
@@ -24,8 +28,8 @@ namespace ChatServer.API.Controllers
             var authResult = await Mediator.Send(request);
              if (authResult.Succeeded) 
             {
-                 await _hubContext.Clients.Group(request.RoomId.ToString()).SendAsync("newMessage", request);
-               // await _hubContext.Clients.All.SendAsync("newMessage", request);
+                 await _hubConnection._HubConnection.InvokeAsync("creatMessages", authResult.Data, request.RoomId);
+  
             } 
           
 
@@ -57,7 +61,7 @@ namespace ChatServer.API.Controllers
         }
 
 
-        [HttpPost("Delete")]
+        [HttpPost("Update")]
         public async Task<IActionResult> PostMessages(UpdateMessagesCommand request)
         {
 

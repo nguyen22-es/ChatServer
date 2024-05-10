@@ -37,6 +37,7 @@ public class GetAllMessagesQueryHandler : IRequestHandlerWrapper<GetAllMessagesQ
             var messageDot = new MessagesDot
             {
                 id = item.Messages.Id,
+                UserSend = item.Messages.UserId,
                 content = item.Messages.Content,
                 nameSend = item.Messages.User.Name,
                 timeSend = item.Messages.Created

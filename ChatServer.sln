@@ -3,22 +3,24 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "ChatApi\Domain.csproj", "{2F08D5C6-1F24-4BB9-9B2C-E0A2A60C1204}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "ChatApi\Domain.csproj", "{2F08D5C6-1F24-4BB9-9B2C-E0A2A60C1204}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{93D21E96-89C8-41CA-B1E5-ACC70A7D55CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{93D21E96-89C8-41CA-B1E5-ACC70A7D55CB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2F08D5C6-1F24-4BB9-9B2C-E0A2A60C1204} = {2F08D5C6-1F24-4BB9-9B2C-E0A2A60C1204}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{6C89EFE4-1D10-40F0-891D-EA989092B1A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{6C89EFE4-1D10-40F0-891D-EA989092B1A7}"
 	ProjectSection(ProjectDependencies) = postProject
 		{93D21E96-89C8-41CA-B1E5-ACC70A7D55CB} = {93D21E96-89C8-41CA-B1E5-ACC70A7D55CB}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatServer.API", "ChatServer.API\ChatServer.API.csproj", "{1FA68DE3-09F7-4257-9493-423D1A3D268D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatServer.API", "ChatServer.API\ChatServer.API.csproj", "{1FA68DE3-09F7-4257-9493-423D1A3D268D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6C89EFE4-1D10-40F0-891D-EA989092B1A7} = {6C89EFE4-1D10-40F0-891D-EA989092B1A7}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerSingalr", "ServerSingalr\ServerSingalr.csproj", "{3508F180-F8C2-4EE0-A15A-62833ACF2AEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,10 @@ Global
 		{1FA68DE3-09F7-4257-9493-423D1A3D268D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FA68DE3-09F7-4257-9493-423D1A3D268D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FA68DE3-09F7-4257-9493-423D1A3D268D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3508F180-F8C2-4EE0-A15A-62833ACF2AEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3508F180-F8C2-4EE0-A15A-62833ACF2AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3508F180-F8C2-4EE0-A15A-62833ACF2AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3508F180-F8C2-4EE0-A15A-62833ACF2AEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

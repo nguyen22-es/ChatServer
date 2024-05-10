@@ -7,13 +7,15 @@ using ChatServer.Application.Common.Interfaces;
 using ChatServer.Infrastructure.Data;
 using ChatServer.Infrastructure.Data.Interceptors;
 using ChatServer.Infrastructure.Services;
-using Infrastructure.ChatHub;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using ServerSingalr.ChatHub;
 using System.Text;
 
 
@@ -36,7 +38,8 @@ public static class DependencyInjection
         services.AddScoped<IDomainEventService, DomainEventService>();
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
-        services.AddTransient<ChatHub>();
+
+        services.AddSingleton<HubService>();
         services.AddSignalR();
 
         services.AddAuthentication(options =>
@@ -71,7 +74,16 @@ public static class DependencyInjection
                     return Task.CompletedTask;
                 }
             };
-
         });
+
+        services.AddSingleton<HubConnection>(provider =>
+        {
+            var hubService = provider.GetRequiredService<HubService>();
+        
+            return hubService.CreateHubConnection();
+        });
+
+
+
     }
 }

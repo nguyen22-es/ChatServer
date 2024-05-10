@@ -28,7 +28,7 @@ namespace Chatserver.Application.ApplicationUser.Queries.GetToken
         {
             _mapper = mapper;
             _context = context;
-             _tokenService = tokenService;
+            _tokenService = tokenService;
         }
 
         public async Task<ServiceResult<LoginResponse>> Handle(GetTokenQuery request, CancellationToken cancellationToken)

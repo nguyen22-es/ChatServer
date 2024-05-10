@@ -4,7 +4,8 @@ using ChatServer.Infrastructure;
 using Application.Common.Interfaces;
 using Microsoft.OpenApi.Models;
 using Microsoft.Exchange.WebServices.Data;
-using Infrastructure.ChatHub;
+using ServerSingalr.ChatHub;
+
 
 
 
@@ -36,7 +37,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ICurrentUserService, CurrentUser>();
 
 builder.Services.AddHttpContextAccessor();
-
+builder.Services.AddTransient<ChatHub>();
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -88,6 +89,6 @@ app.MapControllers();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
-    endpoints.MapHub<ChatHub>("/SignalrHub");
+
 });
 app.Run();
