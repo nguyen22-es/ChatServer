@@ -36,7 +36,7 @@ public record GetRoomsByIdQuery(int UserId) : IRequestWrapper<List<RoomDot>>;
             {
                 connection.Open();
 
-                var query = "SELECT * FROM Rooms  INNER JOIN RoomUsers ON RoomUsers.RoomId = Rooms.Id WHERE RoomUsers.UserId = @UserId";
+                var query = "SELECT * FROM Rooms INNER JOIN RoomUsers ON RoomUsers.RoomId = Rooms.Id WHERE RoomUsers.UserId = @UserId";
                 var paramObject = new { UserId = request.UserId };
 
                 var result = await connection.QueryAsync<Rooms>(query, paramObject);

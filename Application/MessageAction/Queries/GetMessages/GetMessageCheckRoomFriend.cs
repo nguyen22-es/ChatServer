@@ -30,7 +30,7 @@ public class GetMessageRoomFriendHandler : IRequestHandlerWrapper<GetMessageChec
     public async Task<ServiceResult<RoomCheckDot>> Handle(GetMessageCheckRoomFriend request, CancellationToken cancellationToken)
     {
         var RoomUser = await _context.RoomUsers.AsNoTracking().Include(r => r.Rooms).Where(a => a.UserId == request.UserId && a.Rooms.IsGroup == false).ToListAsync();
-        var RoomFriend = await _context.RoomUsers.AsNoTracking().Where(a => a.UserId == request.UserId).ToListAsync();
+        var RoomFriend = await _context.RoomUsers.AsNoTracking().Where(a => a.UserId == request.FriendId && a.Rooms.IsGroup == false).ToListAsync();
 
         var room = new RoomUser();
         var roomDot = new RoomCheckDot();

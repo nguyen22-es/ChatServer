@@ -17,7 +17,7 @@ using ServerSingalr.ChatHub;
 
 namespace ChatServer.API.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+  //  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class RoomController : BaseApiController
     {
      
@@ -70,6 +70,8 @@ namespace ChatServer.API.Controllers
 
             var authResult = await Mediator.Send(request);
             var connect = _hubConnection._HubConnection;
+
+
             await connect.InvokeAsync("Join", authResult.Data, request.FriendId);
             await connect.InvokeAsync("Join", authResult.Data, request.UserId);
 
