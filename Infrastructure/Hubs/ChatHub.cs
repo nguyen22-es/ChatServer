@@ -1,6 +1,8 @@
 ﻿
+using Application.Authentication.Commands;
 using Application.Dot;
 using AutoMapper;
+using Azure.Core;
 using Chatserver.Application.Queries;
 using Chatserver.Application.UserC.Queries.GetTodoItemsWithPagination;
 using ChatServer.Infrastructure.Data;
@@ -23,21 +25,48 @@ namespace ServerSingalr.ChatHub
         private readonly static Dictionary<int, string> _ConnectionsMap = new Dictionary<int, string>();
        // private readonly static List<UserDot> _Connections = new List<UserDot>();
         private readonly ApplicationDbContext _applicationDbContext;
-
-        public ChatHub(ApplicationDbContext applicationDbContext)
+        private readonly IMediator _mediator;
+        public ChatHub(ApplicationDbContext applicationDbContext,IMediator mediator)
         {
             _applicationDbContext = applicationDbContext;
-
+            _mediator = mediator;
         }
    
-        public async Task creatMessages(MessagesDot messagesDot,int roomId)
-        {                       
-            await Clients.Group(roomId.ToString()).SendAsync("newMessage", messagesDot);
+        public async Task sendMessages(CreateMessagesCommand request)
+        {
+            var MessagesDot =await _mediator.Send(request);
+            await Clients.Group(request.RoomId.ToString()).SendAsync("receiveMessages", MessagesDot.Data);
         }
 
 
+        public async Task CreateRooms(CreateRoomTrueCommand request) // tạo room chat với bạn bè
+        {
+            try
+            {
+
+                var authResult = await _mediator.Send(request);
+
+                foreach(var i in request.ListId)
+
+                if (_ConnectionsMap.Any(n => n.Key == i))
+                {
+
+                    await Groups.AddToGroupAsync(Context.ConnectionId, authResult.Data.id.ToString());
+
+
+                    await Clients.OthersInGroup(authResult.Data.ToString()).SendAsync("AddUser", authResult.Data);
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                await Clients.Caller.SendAsync("onError", "You failed to join the chat room!" + ex.Message);
+            }
+
+        }
       
-        public async Task Join(RoomDot roomDot, int UserID)
+        public async Task Join(RoomDot roomDot)
         {
 
 
@@ -46,7 +75,7 @@ namespace ServerSingalr.ChatHub
              
                
 
-                if (_ConnectionsMap.Any(n => n.Key == UserID))
+                if (_ConnectionsMap.Any(n => n.Key == IdentityName()))
                 {
                
                     await Groups.AddToGroupAsync(Context.ConnectionId, roomDot.id.ToString());
@@ -62,6 +91,9 @@ namespace ServerSingalr.ChatHub
                 await Clients.Caller.SendAsync("onError", "You failed to join the chat room!" + ex.Message);
             }
         }
+
+
+
         public override async Task OnConnectedAsync()
         {
 

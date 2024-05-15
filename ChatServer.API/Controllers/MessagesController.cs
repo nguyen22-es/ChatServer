@@ -15,23 +15,18 @@ namespace ChatServer.API.Controllers
 
     public class MessagesController : BaseApiController
     {
-        private readonly HubService _hubConnection;
 
-        public MessagesController(HubService hubConnection)
+
+        public MessagesController( )
         {
-            _hubConnection = hubConnection;   
+ 
         }
         [HttpPost("Create")]
         public async Task<IActionResult> CreateMessages(CreateMessagesCommand request)
         {
 
             var authResult = await Mediator.Send(request);
-             if (authResult.Succeeded) 
-            {
-                 await _hubConnection._HubConnection.InvokeAsync("creatMessages", authResult.Data, request.RoomId);
-  
-            } 
-          
+
 
             return Ok(authResult);
         }

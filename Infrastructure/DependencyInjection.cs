@@ -9,11 +9,13 @@ using ChatServer.Infrastructure.Data.Interceptors;
 using ChatServer.Infrastructure.Services;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using ServerSingalr.ChatHub;
 using System.Text;
@@ -41,6 +43,9 @@ public static class DependencyInjection
 
         services.AddSingleton<HubService>();
         services.AddSignalR();
+        services.AddTransient<ChatHub>();
+ 
+
 
         services.AddAuthentication(options =>
         {

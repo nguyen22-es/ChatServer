@@ -1,5 +1,6 @@
 ﻿using Application.Authentication.Commands;
 using Application.Common.Interfaces;
+using Application.Dot;
 using Chatserver.Application.ApplicationUser.Queries.GetToken;
 using Chatserver.Application.Common.Models;
 using Chatserver.Application.Queries;
@@ -21,13 +22,14 @@ namespace ChatServer.API.Controllers
     public class RoomController : BaseApiController
     {
      
-        private readonly HubService _hubConnection;
-    
+
+        private readonly IHubContext<ChatHub> _hubClients;
  
 
-        public RoomController(HubService hubConnection) 
+        public RoomController(  IHubContext<ChatHub> hubClients) 
         {
-            _hubConnection = hubConnection;
+
+            _hubClients = hubClients;
          
         }
 
@@ -38,7 +40,7 @@ namespace ChatServer.API.Controllers
                 
             var authResult = await Mediator.Send(new GetRoomsByIdQuery(request));
 
-
+         
 
             return Ok(authResult);
         }
@@ -50,14 +52,8 @@ namespace ChatServer.API.Controllers
 
             var authResult = await Mediator.Send(request);
 
-            var connect = _hubConnection._HubConnection;
-            foreach (var item in request.ListId)
-            {
 
-
-             await  connect.InvokeAsync("Join", authResult.Data, item);
-                Console.WriteLine(item + "đã tham gia vào phòng" + request);
-            }
+            await _hubClients.Clients.Group(authResult.Data.id.ToString()).SendAsync("AddUser", authResult.Data);
 
             return Ok(authResult);
         }
@@ -69,12 +65,8 @@ namespace ChatServer.API.Controllers
 
 
             var authResult = await Mediator.Send(request);
-            var connect = _hubConnection._HubConnection;
 
-
-            await connect.InvokeAsync("Join", authResult.Data, request.FriendId);
-            await connect.InvokeAsync("Join", authResult.Data, request.UserId);
-
+            
             return Ok(authResult);
         }
 
@@ -84,13 +76,9 @@ namespace ChatServer.API.Controllers
         {
            
           var authResult =  await Mediator.Send(request);
-            var connect = _hubConnection._HubConnection;
-            foreach (var item in request.UsersId)
-            {
-                await connect.InvokeAsync("Join", authResult, item);
-                Console.WriteLine( item + "đã tham gia vào phòng"+ request.RoomId);
-            }
-          
+
+          await _hubClients.Clients.Group(authResult.id.ToString()).SendAsync("AddUser", authResult);
+
             return Ok();
         }
 

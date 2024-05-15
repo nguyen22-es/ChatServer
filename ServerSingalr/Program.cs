@@ -78,6 +78,10 @@ app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
 
-    endpoints.MapHub<ChatHub>("/SignalrHub");
+    endpoints.MapHub<ChatHub>("/SignalrHub", optioins =>
+    {
+        optioins.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
+    } 
+    );
 });
 app.Run();

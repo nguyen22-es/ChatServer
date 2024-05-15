@@ -37,7 +37,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ICurrentUserService, CurrentUser>();
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddTransient<ChatHub>();
+
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -89,6 +89,10 @@ app.MapControllers();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
-
+    endpoints.MapHub<ChatHub>("/SignalrHub", optioins =>
+    {
+        optioins.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
+    }
+     );
 });
 app.Run();
