@@ -53,7 +53,7 @@ namespace ChatServer.API.Controllers
             var authResult = await Mediator.Send(request);
 
 
-            await _hubClients.Clients.Group(authResult.Data.id.ToString()).SendAsync("AddUser", authResult.Data);
+         //   await _hubClients.Clients.Group(authResult.Data.id.ToString()).SendAsync("AddUser", authResult.Data);
 
             return Ok(authResult);
         }
@@ -65,8 +65,12 @@ namespace ChatServer.API.Controllers
 
 
             var authResult = await Mediator.Send(request);
-
             
+         
+
+
+
+
             return Ok(authResult);
         }
 

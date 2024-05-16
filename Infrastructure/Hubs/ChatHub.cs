@@ -39,7 +39,7 @@ namespace ServerSingalr.ChatHub
         }
 
 
-        public async Task CreateRooms(CreateRoomTrueCommand request) // tạo room chat với bạn bè
+        public async Task CreateRooms(CreateRoomTrueCommand request) // tạo room chat với bạn bè//
         {
             try
             {
@@ -47,16 +47,49 @@ namespace ServerSingalr.ChatHub
                 var authResult = await _mediator.Send(request);
 
                 foreach(var i in request.ListId)
-
-                if (_ConnectionsMap.Any(n => n.Key == i))
                 {
+                    var id = _ConnectionsMap.FirstOrDefault(n => n.Key == i);
+                    if (id.Key != null)
+                    {
+                        await Groups.AddToGroupAsync(id.Value, authResult.Data.id.ToString());
 
-                    await Groups.AddToGroupAsync(Context.ConnectionId, authResult.Data.id.ToString());
+
+                     
+                    }
+                }
+                await Clients.Group(authResult.Data.id.ToString()).SendAsync("AddUser", authResult.Data);
+            }
+            catch (Exception ex)
+            {
+                await Clients.Caller.SendAsync("onError", "You failed to join the chat room!" + ex.Message);
+            }
+
+        }
+
+        public async Task AddUserRoom(AddUserRoomUserCommand request) // thêm người dùng vào phòng chat
+        {
+            try
+            {
+
+                var authResult = await _mediator.Send(request);
+
+                foreach (var i in request.UsersId)
+                {
+                    var id = _ConnectionsMap.FirstOrDefault(n => n.Key == i);
 
 
-                    await Clients.OthersInGroup(authResult.Data.ToString()).SendAsync("AddUser", authResult.Data);
+                    if (id.Key != null)
+                    {
+
+                        await Groups.AddToGroupAsync(id.Value, authResult.id.ToString());
+
+
+                     
+                    }
+
                 }
 
+                await Clients.Group(authResult.id.ToString()).SendAsync("AddUser", authResult);
 
             }
             catch (Exception ex)
@@ -65,25 +98,30 @@ namespace ServerSingalr.ChatHub
             }
 
         }
-      
-        public async Task Join(RoomDot roomDot)
+
+        public async Task Join(RoomDot roomDot) // sau khi tao phong chat 
         {
 
 
             try
             {
-             
-               
 
-                if (_ConnectionsMap.Any(n => n.Key == IdentityName()))
+                 var userRoom = _applicationDbContext.RoomUsers.Where(a => a.RoomId == roomDot.id).ToList();
+                foreach (var item in userRoom)
                 {
-               
-                    await Groups.AddToGroupAsync(Context.ConnectionId, roomDot.id.ToString());
+                    var id = _ConnectionsMap.FirstOrDefault(n => n.Key == item.UserId);
+                    if (id.Key != null)
+                    {
 
+                        await Groups.AddToGroupAsync(id.Value, roomDot.id.ToString());
 
-                    await Clients.OthersInGroup(roomDot.id.ToString()).SendAsync("AddUser", roomDot);
+                        
+                     
+                    }
+
                 }
 
+                await Clients.Group(roomDot.id.ToString()).SendAsync("AddUser", roomDot);
 
             }
             catch (Exception ex)
