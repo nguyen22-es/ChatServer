@@ -13,43 +13,43 @@ using System.Security.Claims;
 using System.Text;
 
 
-namespace Infrastructure.Services
-{
-    public class HubService
-    {
-        private readonly ICurrentUserService _user;
+//namespace Infrastructure.Services
+//{
+//    public class HubService
+//    {
+//        private readonly ICurrentUserService _user;
     
-        public  HubConnection _HubConnection => CreateHubConnection();
+//        public  HubConnection _HubConnection => CreateHubConnection();
 
 
-        public HubService(ICurrentUserService user )
-        {
-            _user = user;
+//        public HubService(ICurrentUserService user )
+//        {
+//            _user = user;
         
-        }
+//        }
 
-        public  HubConnection CreateHubConnection()
-        {
+//        public  HubConnection CreateHubConnection()
+//        {
         
-          var  accessToken = _user.Token;
-            var endpoint = "https://localhost:7211/SignalrHub?access_token=" + accessToken.Result;
+//          var  accessToken = _user.Token;
+//            var endpoint = "https://localhost:7211/SignalrHub?access_token=" + accessToken.Result;
 
-            var connection =     new HubConnectionBuilder()
-                            .WithUrl(endpoint).WithAutomaticReconnect()
-                            .Build();
+//            var connection =     new HubConnectionBuilder()
+//                            .WithUrl(endpoint).WithAutomaticReconnect()
+//                            .Build();
 
           
-                connection.StartAsync().Wait();
+//                connection.StartAsync().Wait();
             
           
 
 
 
 
-            return connection;
+//            return connection;
 
     
-        }
+//        }
        
-    }
-}
+//    }
+//}
